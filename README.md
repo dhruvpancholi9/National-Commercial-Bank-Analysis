@@ -5,6 +5,8 @@ Overview
 This project analyzes the relationship between macroeconomic conditions and the financial performance of U.S. national commercial banks. The goal is to build a clean, merged dataset that connects bank fundamentals with major economic indicators and then use descriptive analysis and regression modeling to evaluate how changes in the economy align with changes in bank outcomes such as revenue and profitability.
 
 
+
+
 Industry scope
 
 The analysis focuses on the National Commercial Banks industry, identified using SIC Code 6021. This scope is used to pull a broad set of bank level financial data for multiple years so the results reflect overall industry patterns rather than a single company view.
