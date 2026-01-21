@@ -1,92 +1,97 @@
-# National-Commercial-Banks-Analysis
+# Commercial Bank Analysis
 
-Overview
+## Overview
+This project analyzes how macroeconomic conditions relate to the financial performance of U.S. national commercial banks. Bank fundamentals from WRDS Compustat (SIC 6021) are combined with key FRED indicators to evaluate whether changes in interest rates, recession risk, and housing market activity are associated with changes in bank revenue and profitability.
 
-This project analyzes the relationship between macroeconomic conditions and the financial performance of U.S. national commercial banks. The goal is to build a clean, merged dataset that connects bank fundamentals with major economic indicators and then use descriptive analysis and regression modeling to evaluate how changes in the economy align with changes in bank outcomes such as revenue and profitability.
+## Objectives
+- Build an analysis-ready dataset by merging WRDS Compustat bank fundamentals with FRED macroeconomic indicators
+- Explore trends and relationships using descriptive statistics and visualizations
+- Quantify relationships using OLS regression and interpret model fit and significance
 
+## Data Sources
+### WRDS Compustat
+- Industry filter: **SIC 6021 (National Commercial Banks)**
+- Example financial fields: `revt` (revenue), `ni` (net income)
+- Identifiers used: `gvkey`, `cik`, `conm`, `datadate`, `year`
 
+### FRED (Federal Reserve Economic Data)
+- Federal Funds Rate (DFF): https://fred.stlouisfed.org/series/DFF
+- Recession Probability: https://fred.stlouisfed.org/series/RECPROUSM156N
+- Existing Home Sales: https://fred.stlouisfed.org/series/EXHOSLUSM495S
 
+## Methodology
+### 1) Data Preparation
+- Imported company fundamentals for SIC 6021 from WRDS Compustat
+- Pulled macroeconomic indicators from FRED using series IDs
+- Standardized date fields and created time keys for alignment
+- Aggregated monthly FRED series to yearly values to match Compustat reporting frequency
 
-Industry scope
+### 2) Merging Strategy
+- Joined datasets using a common time key (`year`)
+- Final dataset includes only periods where all required sources overlap
+- Primary key for the combined dataset: `gvkey` + `year`
 
-The analysis focuses on the National Commercial Banks industry, identified using SIC Code 6021. This scope is used to pull a broad set of bank level financial data for multiple years so the results reflect overall industry patterns rather than a single company view.
+### 3) Analysis Performed
+- Descriptive statistics for key variables (`revt`, `ni`, Federal Funds, recession probability, housing sales)
+- Trend analysis with line charts
+- Correlation analysis with heatmaps
+- OLS regression modeling to estimate relationships between bank performance and macro factors
 
+## Key Variables
+| Variable | Description |
+|---------|-------------|
+| `year` | Fiscal year |
+| `gvkey` | Company identifier (Compustat) |
+| `cik` | SEC Central Index Key |
+| `conm` | Company name |
+| `revt` | Total revenue |
+| `ni` | Net income |
+| `Federal_Funds` | Federal Funds Rate (annualized/aggregated) |
+| `Recession_Probability` | Recession probability (annualized/aggregated) |
+| `Housing_Units_Sold` | Existing home sales or housing activity proxy (annualized/aggregated) |
 
-Data sources
+## Modeling
+**Approach:** Ordinary Least Squares (OLS)
 
-WRDS Compustat
-Used for company fundamentals such as revenue and net income, along with identifiers needed for consistent tracking across time (for example gvkey, cik, company name, and fiscal year).
+**Example model form:**
+- `revt ~ ni + Federal_Funds + Recession_Probability (+ Housing_Units_Sold when available)`
 
-FRED (Federal Reserve Economic Data)
-Used for macroeconomic indicators relevant to banking performance:
+**Evaluation metrics used:**
+- R-squared and Adjusted R-squared
+- F-statistic and its p-value
+- Coefficient t-statistics and p-values
+- Diagnostic checks (autocorrelation and multicollinearity indicators where applicable)
 
-Federal Funds Rate (interest rate environment and cost of capital)
+## Results Summary
+- Built a consolidated dataset linking bank fundamentals with macroeconomic indicators across multiple years
+- Produced trend charts and correlation heatmaps to understand relationships and directionality
+- Regression results show that profitability and macro conditions help explain variation in bank revenue, with model fit varying by bank and specification
 
-Recession Probability (macro risk and economic stress)
+## Project Deliverables
+- `commercial_bank_analysis.ipynb` (analysis notebook)
+- `commercial_bank_analysis_report.pdf` (final report)
+- `commercial_bank_analysis_presentation.pptx` (presentation)
+- `/assets` charts and plots used in the report
 
-Housing market activity (demand proxy tied to borrowing and consumer behavior)
+## Skills Used
+- Python: pandas, numpy, statsmodels
+- Data cleaning, transformation, and aggregation
+- Dataset merging and key design (time-series alignment)
+- Data visualization (trend charts, heatmaps)
+- Statistical modeling (OLS regression) and interpretation
+- Communication of findings via report and presentation
 
-
-Data preparation
-
-Imported bank fundamentals from Compustat using SIC 6021.
-
-Pulled economic indicator time series from FRED using series keys.
-
-Standardized date fields and aligned datasets on a common time unit.
-
-Aggregated monthly macro series to annual values to match the bank fundamentals reporting frequency.
-
-Built a combined dataset where a company and year uniquely identify observations, enabling time based analysis and modeling.
-
-
-Merging approach
-
-The economic data is updated more frequently than company fundamentals, so the macro series was aggregated to annual frequency before merging. The final combined dataset only includes periods where the bank fundamentals and the chosen macro indicators overlap, ensuring consistent comparisons across variables.
-
-
-Analysis performed
-
-Descriptive statistics
-Computed basic distributions and summary metrics for revenue, net income, and macro indicators to understand ranges, averages, and variability over time.
-
-Trend analysis
-Visualized multi year trends for key indicators, including revenue growth patterns and shifts in macro variables across the study period.
-
-Correlation analysis
-Built a correlation heatmap to quickly assess which variables move together and which move inversely, supporting feature selection and interpretation.
-
-Regression modeling
-Fit OLS regression models to estimate how bank revenue relates to profitability and macroeconomic conditions. Evaluated model quality using R-squared, F-statistic, and p-values to understand explanatory power and statistical significance.
-
-
-Key deliverables
-
-A cleaned, merged dataset combining bank fundamentals with macro indicators
-
-Trend charts and correlation heatmaps for exploratory insight
-
-Regression outputs with interpretation of fit and variable significance
-
-Final report and slide deck summarizing methodology, findings, limitations, and business implications
-
-Tools and skills used
-
-Python: pandas, numpy, statsmodels
-
-Data cleaning and transformation
-
-Dataset merging and aggregation across time frequencies
-
-Time series preparation
-
-Exploratory analysis and visualization
-
-Regression modeling and statistical interpretation
-
-Communication of results through a written report and presentation
-
-
-Outcome
-
-The project produces an end to end analysis that connects economic indicators to bank performance metrics and provides a structured framework for evaluating how interest rates, recession risk, and housing activity can relate to bank revenue and profitability. It also highlights practical constraints such as indicator availability and frequency differences, and documents where results should be interpreted cautiously due to data coverage and aggregation choices.
+## Repository Structure
+```text
+.
+├── commercial_bank_analysis.ipynb
+├── commercial_bank_analysis_dashboard.html
+├── commercial_bank_analysis_report.pdf
+├── commercial_bank_analysis_presentation.pptx
+├── README.md
+└── assets
+    ├── commercial_bank_fed_funds_trend.png
+    ├── commercial_bank_housing_price_trend.png
+    ├── commercial_bank_repayment_trend.png
+    ├── commercial_bank_correlation_heatmap.png
+    └── commercial_bank_feature_correlation_heatmap.png
