@@ -4,9 +4,11 @@ Overview
 
 This project analyzes the relationship between macroeconomic conditions and the financial performance of U.S. national commercial banks. The goal is to build a clean, merged dataset that connects bank fundamentals with major economic indicators and then use descriptive analysis and regression modeling to evaluate how changes in the economy align with changes in bank outcomes such as revenue and profitability.
 
+
 Industry scope
 
 The analysis focuses on the National Commercial Banks industry, identified using SIC Code 6021. This scope is used to pull a broad set of bank level financial data for multiple years so the results reflect overall industry patterns rather than a single company view.
+
 
 Data sources
 
@@ -22,6 +24,7 @@ Recession Probability (macro risk and economic stress)
 
 Housing market activity (demand proxy tied to borrowing and consumer behavior)
 
+
 Data preparation
 
 Imported bank fundamentals from Compustat using SIC 6021.
@@ -34,9 +37,11 @@ Aggregated monthly macro series to annual values to match the bank fundamentals 
 
 Built a combined dataset where a company and year uniquely identify observations, enabling time based analysis and modeling.
 
+
 Merging approach
 
 The economic data is updated more frequently than company fundamentals, so the macro series was aggregated to annual frequency before merging. The final combined dataset only includes periods where the bank fundamentals and the chosen macro indicators overlap, ensuring consistent comparisons across variables.
+
 
 Analysis performed
 
@@ -51,6 +56,7 @@ Built a correlation heatmap to quickly assess which variables move together and 
 
 Regression modeling
 Fit OLS regression models to estimate how bank revenue relates to profitability and macroeconomic conditions. Evaluated model quality using R-squared, F-statistic, and p-values to understand explanatory power and statistical significance.
+
 
 Key deliverables
 
@@ -77,6 +83,7 @@ Exploratory analysis and visualization
 Regression modeling and statistical interpretation
 
 Communication of results through a written report and presentation
+
 
 Outcome
 
